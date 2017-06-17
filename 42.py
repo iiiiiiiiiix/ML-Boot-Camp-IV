@@ -47,3 +47,4 @@ print("cv:  ", cross_val_score(rf, X1, y, cv=cv, scoring='accuracy').mean() )
 rf.fit(X1, y)
 pred = rf.predict(test1)
 np.savetxt('C:/Users/admin/Downloads/rf.csv', pred, delimiter=',')
+
