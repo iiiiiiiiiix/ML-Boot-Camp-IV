@@ -6,9 +6,9 @@ from sklearn.model_selection import StratifiedKFold
 
 from sklearn.ensemble import RandomForestClassifier
 
-X = pd.read_csv('C:/Users/admin/Dropbox/docs/Data/ML Cup 4/x_train.csv', sep=';', header=None)
-test = pd.read_csv('C:/Users/admin/Dropbox/docs/Data/ML Cup 4/x_test.csv', sep=';', header=None)
-y = pd.read_csv('C:/Users/admin/Dropbox/docs/Data/ML Cup 4/y_train.csv', sep=';', header=None)
+X = pd.read_csv('x_train.csv', sep=';', header=None)
+test = pd.read_csv('x_test.csv', sep=';', header=None)
+y = pd.read_csv('y_train.csv', sep=';', header=None)
 y = np.ravel(y)
 
 X1 = X.as_matrix()
@@ -27,13 +27,12 @@ sfs1 = SFS(clf,
            cv=cv)  
 
 start_time = time.time()
-
 sfs1 = sfs1.fit(X1, y)
-
 minutes = (time.time() - start_time) / 60
 print("%.2f minutes" % minutes)
 
 print(sfs1.subsets_)
+
 
 X1 = X.iloc[:, [96, 131, 200, 138, 11, 76, 182, 156]]
 test1 = test.iloc[:, [96, 131, 200, 138, 11, 76, 182, 156]]
@@ -46,5 +45,5 @@ print("cv:  ", cross_val_score(rf, X1, y, cv=cv, scoring='accuracy').mean() )
 
 rf.fit(X1, y)
 pred = rf.predict(test1)
-np.savetxt('C:/Users/admin/Downloads/rf.csv', pred, delimiter=',')
+np.savetxt('rf.csv', pred, delimiter=',')
 
