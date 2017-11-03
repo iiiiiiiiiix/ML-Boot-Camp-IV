@@ -1,9 +1,10 @@
 import numpy as np
 import pandas as pd
+import time
 
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import StratifiedKFold
-
+from mlxtend.feature_selection import SequentialFeatureSelector as SFS
 from sklearn.ensemble import RandomForestClassifier
 
 X = pd.read_csv('x_train.csv', sep=';', header=None)
@@ -13,18 +14,15 @@ y = np.ravel(y)
 
 X1 = X.as_matrix()
 
-#отбор признаков
-from mlxtend.feature_selection import SequentialFeatureSelector as SFS
-
 clf = RandomForestClassifier(random_state=16)
 cv = StratifiedKFold(n_splits=7, random_state=16, shuffle=True)
 
-sfs1 = SFS(clf, 
-           k_features=46, 
-           forward=True, 
+sfs1 = SFS(clf,
+           k_features=46,
+           forward=True,
            verbose=2,
            scoring='accuracy',
-           cv=cv)  
+           cv=cv)
 
 start_time = time.time()
 sfs1 = sfs1.fit(X1, y)
@@ -40,10 +38,9 @@ test1 = test.iloc[:, [96, 131, 200, 138, 11, 76, 182, 156]]
 rf = RandomForestClassifier(n_estimators=1000, random_state=16)
 cv = StratifiedKFold(n_splits=7, random_state=16, shuffle=True)
 
-print("cv:  ", cross_val_score(rf, X1, y, cv=cv, scoring='accuracy').mean() )
+print("cv:  ", cross_val_score(rf, X1, y, cv=cv, scoring='accuracy').mean())
 # cv: 0.6325
 
 rf.fit(X1, y)
 pred = rf.predict(test1)
 np.savetxt('rf.csv', pred, delimiter=',')
-
